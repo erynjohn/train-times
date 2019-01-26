@@ -18,9 +18,7 @@ $(document).ready(function () {
 
     //save database reference 
     const trainCollection = firestore.collection("train-schedule");
-    
 
-    
 
     //Update button function
     $('.save-button').on('click', function (event) {
