@@ -23,7 +23,7 @@ body {
     width: 50%;
 }
 .overlay{
-    background: rgba(26, 52, 78, 0.377);
+    background: rgba(26, 52, 78, 0.637);
     overflow: hidden;
     height: 100%;
     z-index: 2;

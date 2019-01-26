@@ -1,6 +1,6 @@
 
 $(document).ready(function () {
-    
+
     //Initialize Firebase
     var config = {
         apiKey: "AIzaSyDZUB5ygACv1B1jaJUyekKs56MFVS_5dck",
@@ -10,7 +10,7 @@ $(document).ready(function () {
         storageBucket: "ebaylike-57f59.appspot.com",
         messagingSenderId: "419760624718"
     };
-    
+
     firebase.initializeApp(config);
     // Initialize Cloud Firestore through Firebase
     var firestore = firebase.firestore();
@@ -55,50 +55,60 @@ $(document).ready(function () {
     function createTableData(doc) {
         $(".train-table").append(
             "<tr id= '$trId'><td id='name-col'>" + doc.name +
-            "<td id='destination-col'>" + doc.destination+ "</td></tr>");
-   
+            "<td id='destination-col'>" + doc.destination + "</td></tr>");
+
     }
 
     trainCollection.orderBy('timetable.name').onSnapshot(snapshot => {
         var changes = snapshot.docChanges();
-        
+
         changes.forEach(change => {
-            if(change.type == 'added') {
+            if (change.type == 'added') {
                 createTableData(change.doc.data().timetable);
                 // takes care of the time
                 var firstTrainTime = parseInt(change.doc.data().timetable.timeGive);
                 var frequency = parseInt(change.doc.data().timetable.frequency)
-					    var firstTimeConverted = moment(firstTrainTime, "HH:mm ");
-						var timeNow = moment();
-						console.log('Current time '+moment(timeNow).format('HH:mm '));
-						var diffTime = moment().diff(moment(firstTimeConverted), "minutes");
-						var timeDiff = diffTime % frequency;
-                        var nextArrival = frequency - timeDiff;
-						console.log('frequency ' + nextArrival+' minutes');
-					    var nextTrain = moment().add(nextArrival, "minutes");
-                        console.log("Train arrives at "+moment(nextTrain).format("HH:mm"));
+                var firstTimeConverted = moment(firstTrainTime, "HH:mm ");
+                var timeNow = moment();
+                // console.log('Current time ' + moment(timeNow).format('HH:mm '));
+                var diffTime = moment().diff(moment(firstTimeConverted), "minutes");
+                var timeDiff = diffTime % frequency;
+                var nextArrival = frequency - timeDiff;
+                var nextTrain = moment().add(nextArrival, "minutes");
 
-                        $(".train-tableTimes").append(
-                            "<tr id=secondTr><td id='next-arrival'>" +nextTrain.format("HH:mm") +
-                            "<td>" +frequency+ "</td></tr>");            
-                      
-                        
-                
+                    $(".train-tableTimes").append(
+                        "<tr id=secondTr><td id='next-arrival refreshData'>" + nextTrain.format("HH:mm") +
+                        "<td id='refreshData'>" + frequency + "<td>" + nextArrival + "</td></tr>");
 
-        
-            } else if(change.type == 'removed') {
-                trainCollection.doc('[data-id=' +change.doc.id+ ']').delete().then(function(){
-                    setInterval('window.location.reload()');
-                console.log("document removed")
-                }).catch(function(error) {
+                        setInterval(function(){
+                           refresh();
+                         }, 100);
+
+                         function refresh() {
+                            $( ".train-tableTime" ).load( "index.html #refreshData" );
+                         }
+            
+                    // setInterval(() => {
+                    //     $('.updateEverySecondArrival').text(nextTrain);
+                    // }, 1000);
+
+
+
+
+
+
+
+
+
+            } else if (change.type == 'removed') {
+                trainCollection.doc('[data-id=' + change.doc.id + ']').delete().then(function () {
+                    setInterval('document.location.reload()');
+                    console.log("document removed")
+                }).catch(function (error) {
                     console.error("Error removing document ", error);
                 })
             }
         })
     })
-            	
-     
-
-
 
 });
