@@ -1,0 +1,40 @@
+body {
+    background-image: url('../../assets/images/steam_train_512508_1280_A0_Rectangle_2_pattern.png');
+    background-size: cover;
+    color: #ffffff;
+}
+.jumbotro {
+
+    background-color: rgba(64, 64, 64, 0.466);
+}
+.form-container {
+    opacity: 0.5;
+    padding: 10px;
+    margin: 20px;
+}
+.train-schedule {
+    box-sizing: border-box;
+    float: left;
+    width: 50%;
+}
+.train-schedule-second {
+    box-sizing: border-box;
+    float: left;
+    width: 50%;
+}
+.overlay{
+    background: rgba(26, 52, 78, 0.377);
+    overflow: hidden;
+    height: 100%;
+    z-index: 2;
+}
+input {
+    opacity: 0.5;
+    border-radius: 3px;
+}
+button {
+    width: 10%;
+}
+button:hover {
+    -webkit-text-stroke: 1px;
+}
